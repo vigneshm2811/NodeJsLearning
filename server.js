@@ -1,21 +1,28 @@
-console.log("MVP monster")
+const { error } = require('console')
+const http = require('http')
+const PORT = 2000
+const fs = require('fs')
 
-// window object in node js we use global
-// console.log(global)
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/html' })
+    fs.readFile('index.html', (error, data) => {
+        if (error) {
+            res.writeHead(404)
+            res.write("Page Not Found")
+        } else {
+            res.write(data)
+        }
+        res.end()
+    })
 
-const os = require("os")
-console.log(os.type())
-console.log(os.version())
-console.log(os.homedir())
 
-//to see directory
+})
 
-console.log(__dirname)
-console.log(__filename)
-
-const path = require("path")
-//using path
-console.log(path.dirname(__filename))
-console.log(path.basename(__filename))//for filename
-console.log(path.extname(__filename))// for filextention
-console.log(path.parse(__filename)) // it parse the whole object
+server.listen(PORT, (error) => {
+    if (error) {
+        console.log(error)
+    }
+    else {
+        console.log('Server is running on', PORT)
+    }
+})
